@@ -5,5 +5,8 @@ body {
   align-items: center;
   text-align: center;
 }
-h1 {
+.list {
+  list-style-position: inside;
+  text-align: center;
+  color: brown;
 }

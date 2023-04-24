@@ -1,22 +1,71 @@
-import React, { useState, useRef } from "react";
-
-// ID variable for each list element
-let nextID = 0;
+import React, { useState } from "react";
+import Add from "./components/Add";
+import Search from "./components/Search";
+import Counter from "./components/Counter";
+import Color from "./components/Color";
 
 function App() {
   // state for creating a saved words list
   const [list, setList] = useState([]);
 
-  // create a ref to save the input from save button
-  const toAddRef = useRef();
-  // create a ref to save user input from search button
-  const toSearchRef = useRef();
+  // state for message
+  const [message, setMessage] = useState("");
+
+  function handleSaveBtn(input) {
+    setList((word) => [...word, { word: input.toLowerCase() }]);
+  }
+
+  function handleSearchBtn(input) {
+    const isFound = list.find(
+      (element) => input.toLowerCase() === element.word.toLowerCase()
+    );
+
+    if (isFound) {
+      setMessage("This word is already on the list");
+    }
+    if (!isFound) {
+      setMessage("Not on the list");
+    }
+  }
+
+  return (
+    <>
+      <Color />
+      <Add handleSaveBtn={handleSaveBtn} />
+      <Search handleSearchBtn={handleSearchBtn} />
+
+      <div className="list">
+        <h1>LIST:</h1>
+        <ul>
+          {list.map((word, index) => (
+            <li key={index}>{word.word}</li>
+          ))}
+        </ul>
+      </div>
+      {message}
+
+      <Counter />
+    </>
+  );
+}
+
+/*
+function App() {
+  // ID variable for each list element
+  let nextID = 0;
+
+  // state for creating a saved words list
+  const [list, setList] = useState([]);
+
+  // search state
+  const [message, setMessage] = useState("");
 
   // SAVE btn
 
-  function handleSaveBtn() {
-    // reading the input value
-    const addInput = toAddRef.current.value.split(",");
+  function handleSaveBtn(input) {
+    // use the input value
+
+    const addInput = input.split(",");
     console.log(addInput);
     // mapping through input array and adding each element to the list state
     addInput.map((word) =>
@@ -28,43 +77,22 @@ function App() {
 
   // SEARCH btn
 
-  function handleSearchBtn() {
-    // reading the input value
-    let searchInput = toSearchRef.current.value;
+  function handleSearchBtn(inputSearch) {
+    const isFound = list.find((element) => inputSearch === element.word);
 
-    //mapping through the list and check for input match
-    list
-      .filter((item) => item.word === searchInput.toLowerCase())
-      .map((filteredItem) =>
-        alert(`This word '${searchInput.toLowerCase()}' is already on the list`)
-      );
-
-    // list.filter((word) => {
-    //   if (word.word.toLowerCase() === searchInput.toLowerCase()) {
-    //     return alert(`This word '${searchInput}' is already on the list`);
-    //   } else return alert(`This word '${searchInput}' is not yet on the list`);
-    // });
+    if (isFound) {
+      setMessage("This word is already on the list");
+    }
+    if (!isFound) {
+      setMessage("Not on the list");
+    }
   }
 
   return (
     <>
-      <div>
-        <h1>
-          Please type a word/sequence separated by <em>comma</em>
-        </h1>
-        <input
-          ref={toAddRef}
-          type="text"
-          placeholder="Please type a word/sequence separated by <em>comma"
-        />
-        <button onClick={handleSaveBtn}>SAVE</button>
-      </div>
+      <Add handleSaveBtn={handleSaveBtn} />
 
-      <div>
-        <h1>Please type a word</h1>
-        <input ref={toSearchRef} type="text" placeholder="Please type a word" />
-        <button onClick={handleSearchBtn}>SEARCH</button>
-      </div>
+      <Search handleSearchBtn={handleSearchBtn} />
 
       <div>
         <h1>LIST:</h1>
@@ -74,8 +102,10 @@ function App() {
           ))}
         </ul>
       </div>
+
+      {message}
     </>
   );
 }
-
+*/
 export default App;
