@@ -3,7 +3,7 @@ import React, { useState } from "react";
 export default function Color() {
   const [color, setColor] = useState("black");
 
-  const handleClick = (e) => {
+  const handleClick = () => {
     setColor(color === "black" ? "red" : "black");
   };
 

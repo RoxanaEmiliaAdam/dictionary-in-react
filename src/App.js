@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Add from "./components/Add";
 import Search from "./components/Search";
 import Counter from "./components/Counter";
 import Color from "./components/Color";
+import Sum from "./components/Sum";
 
 function App() {
   // state for creating a saved words list
@@ -10,6 +11,14 @@ function App() {
 
   // state for message
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    console.log("use effect triggered");
+  }, []);
+
+  useEffect(() => {
+    console.log("state change");
+  }, [list]);
 
   function handleSaveBtn(input) {
     setList((word) => [...word, { word: input.toLowerCase() }]);
@@ -45,6 +54,8 @@ function App() {
       {message}
 
       <Counter />
+      <Sum n1={2} n2={3} />
+      <Sum n1={4} n2={6} />
     </>
   );
 }
